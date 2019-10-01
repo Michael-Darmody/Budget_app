@@ -43,10 +43,6 @@ var budgetController = (function() {
       // Pushes object into data structure and returns the item
       data.allItems[type].push(newItem);
       return newItem;
-    },
-
-    testing: function() {
-      console.log(data)
     }
   }
 })();
@@ -92,6 +88,20 @@ var UIController = (function() {
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
 
+    clearFields: function() {
+      var fields, fieldsArray;
+
+      fields = document.querySelectorAll(DOMStrings.inputDescription + ', ' + DOMStrings.inputValue);
+
+      fieldsArray = Array.prototype.slice.call(fields);
+
+      fieldsArray.forEach(function(current, index, array) {
+        current.value = '';
+      });
+
+      fieldsArray[0].focus();
+    },
+
     getDOMStrings: function() {
       return DOMStrings
     }
@@ -121,9 +131,10 @@ var  appController = (function(budgetCtrl, UICtrl) {
     // 2. Add the item to the budget controller
     newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 
-    // 3. Add the item to the UI
+    // 3. Add the item to the UI and clear input
     UICtrl.addListItem(newItem, input.type)
-    
+    UICtrl.clearFields()
+
     // 4. Calculate the budget
 
     // 5. Display the budget on the UI
